@@ -1,0 +1,50 @@
+name: TestTruth
+description: Mutation-test only the lines your PR changed, and comment which changes no test would catch.
+author: rahulcs754
+branding:
+  icon: check-circle
+  color: green
+
+inputs:
+  base:
+    description: Git ref to compare against. Default is origin/<PR base branch>.
+    required: false
+  threshold:
+    description: Minimum score (0-100). Default 60, or testtruth.json.
+    required: false
+  fail-on-low:
+    description: Fail the check when the score is below the threshold.
+    required: false
+    default: 'false'
+  comment:
+    description: Post or update one PR comment with the report.
+    required: false
+    default: 'true'
+  working-directory:
+    description: Folder of the package to check (for monorepos).
+    required: false
+    default: '.'
+  github-token:
+    description: Token used to post the PR comment.
+    required: false
+    default: ${{ github.token }}
+
+runs:
+  using: composite
+  steps:
+    - name: Run TestTruth
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        TT_BASE: ${{ inputs.base }}
+        TT_THRESHOLD: ${{ inputs.threshold }}
+        TT_FAIL_ON_LOW: ${{ inputs.fail-on-low }}
+        TT_COMMENT: ${{ inputs.comment }}
+      run: |
+        args=(run)
+        [ -n "$TT_BASE" ] && args+=(--base "$TT_BASE")
+        [ -n "$TT_THRESHOLD" ] && args+=(--threshold "$TT_THRESHOLD")
+        [ "$TT_FAIL_ON_LOW" = "true" ] && args+=(--fail-on-low)
+        [ "$TT_COMMENT" = "true" ] && args+=(--comment)
+        node "$GITHUB_ACTION_PATH/dist/cli.js" "${args[@]}"

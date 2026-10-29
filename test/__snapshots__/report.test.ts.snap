@@ -1,0 +1,30 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renderMarkdown > renders the demo report 1`] = `
+"<!-- testtruth-report -->
+### ⚠️ TestTruth: 20% of changed code is truly tested
+
+3 of 15 small bugs we added to your changed lines made a test fail. **12 could ship with no failing test.**
+Threshold: 60%.
+
+| File | Caught | Missed | Score |
+|---|---:|---:|---:|
+| src/cart.js | 3 | 12 | 20% |
+
+**Missed** (add or tighten a test so each of these fails):
+- \`src/cart.js:7\` ConditionalExpression: \`!coupon\` → \`true\` _(tests ran, none failed)_
+- \`src/cart.js:8\` ConditionalExpression: \`subtotal >= coupon.minSpend\` → \`true\` _(tests ran, none failed)_
+- \`src/cart.js:8\` ConditionalExpression: \`subtotal >= coupon.minSpend\` → \`false\` _(tests ran, none failed)_
+- \`src/cart.js:8\` EqualityOperator: \`subtotal >= coupon.minSpend\` → \`subtotal > coupon.minSpend\` _(tests ran, none failed)_
+- \`src/cart.js:8\` EqualityOperator: \`subtotal >= coupon.minSpend\` → \`subtotal < coupon.minSpend\` _(tests ran, none failed)_
+- \`src/cart.js:8\` BlockStatement: \`{ return Math.max(0, subtotal - coupon.amount); }\` → \`{}\` _(tests ran, none failed)_
+- \`src/cart.js:9\` ArithmeticOperator: \`subtotal - coupon.amount\` → \`subtotal + coupon.amount\` _(tests ran, none failed)_
+- \`src/cart.js:9\` MethodExpression: \`Math.max(0, subtotal - coupon.amount)\` → \`Math.min(0, subtotal - coupon.amount)\` _(tests ran, none failed)_
+- \`src/cart.js:15\` ConditionalExpression: \`subtotal > 999\` → \`true\` _(tests ran, none failed)_
+- \`src/cart.js:15\` ConditionalExpression: \`subtotal > 999\` → \`false\` _(tests ran, none failed)_
+- \`src/cart.js:15\` EqualityOperator: \`subtotal > 999\` → \`subtotal >= 999\` _(tests ran, none failed)_
+- \`src/cart.js:15\` EqualityOperator: \`subtotal > 999\` → \`subtotal <= 999\` _(tests ran, none failed)_
+
+<sub>Mutation testing on changed lines only, powered by StrykerJS.</sub>
+"
+`;
