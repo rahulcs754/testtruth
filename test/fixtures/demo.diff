@@ -1,0 +1,40 @@
+diff --git a/src/cart.js b/src/cart.js
+index f4ec7a5..7e2322a 100644
+--- a/src/cart.js
++++ b/src/cart.js
+@@ -2,0 +3,8 @@ export function cartTotal(items, coupon) {
++  return applyCoupon(subtotal, coupon);
++}
++
++export function applyCoupon(subtotal, coupon) {
++  if (!coupon) return subtotal;
++  if (subtotal >= coupon.minSpend) {
++    return Math.max(0, subtotal - coupon.amount);
++  }
+@@ -4,0 +13,4 @@ export function cartTotal(items, coupon) {
++
++export function freeShipping(subtotal) {
++  return subtotal > 999;
++}
+diff --git a/src/cart.js.head b/src/cart.js.head
+deleted file mode 100644
+index 7e2322a..0000000
+--- a/src/cart.js.head
++++ /dev/null
+@@ -1,16 +0,0 @@
+-export function cartTotal(items, coupon) {
+-  const subtotal = items.reduce((sum, item) => sum + item.price * item.qty, 0);
+-  return applyCoupon(subtotal, coupon);
+-}
+-
+-export function applyCoupon(subtotal, coupon) {
+-  if (!coupon) return subtotal;
+-  if (subtotal >= coupon.minSpend) {
+-    return Math.max(0, subtotal - coupon.amount);
+-  }
+-  return subtotal;
+-}
+-
+-export function freeShipping(subtotal) {
+-  return subtotal > 999;
+-}

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TestTruth</title>
+<meta name="description" content="A PR check that mutation-tests only the lines you changed and shows which bugs no test would catch.">
+<style>
+  :root {
+    --bg: #fbfaf7; --fg: #1c1b19; --muted: #66625a; --card: #ffffff; --line: #e6e2d9;
+    --accent: #15803d; --accent-soft: #e7f4ec; --warn: #b45309; --warn-soft: #fdf3e3; --code: #f3f1ec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141413; --fg: #ecebe6; --muted: #a29e94; --card: #1d1d1b; --line: #2e2d2a;
+      --accent: #4ade80; --accent-soft: #15301f; --warn: #fbbf24; --warn-soft: #33270f; --code: #262522;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 48px 16px 64px; }
+  h1 { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.1; margin: 0 0 12px; letter-spacing: -0.02em; }
+  h2 { font-size: 1.35rem; margin: 48px 0 12px; }
+  p.lead { font-size: 1.15rem; color: var(--muted); margin: 0 0 24px; max-width: 640px; }
+  a { color: var(--accent); }
+  .tag { display: inline-block; font-size: .8rem; font-weight: 600; color: var(--accent); background: var(--accent-soft); padding: 2px 10px; border-radius: 99px; margin-bottom: 16px; }
+  .btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600; border: 1px solid var(--line); color: var(--fg); background: var(--card); }
+  .btn.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+  .card h3 { margin: 0 0 6px; font-size: 1rem; }
+  .card p { margin: 0; color: var(--muted); font-size: .95rem; }
+  code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .88rem; }
+  code { background: var(--code); padding: 1px 5px; border-radius: 4px; }
+  pre { background: var(--code); border: 1px solid var(--line); border-radius: 10px; padding: 14px; overflow-x: auto; margin: 8px 0 0; }
+  pre code { background: none; padding: 0; }
+  .comment { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .comment .head { padding: 10px 16px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: .85rem; }
+  .comment .body { padding: 16px; }
+  .comment h4 { margin: 0 0 6px; font-size: 1.1rem; }
+  .score { color: var(--warn); }
+  .table-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: .92rem; }
+  th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--line); }
+  td.n, th.n { text-align: right; }
+  ul.missed { padding-left: 18px; margin: 6px 0 0; }
+  ul.missed li { margin: 4px 0; overflow-wrap: anywhere; }
+  .miss { background: var(--warn-soft); }
+  ol.steps { padding-left: 20px; }
+  ol.steps li { margin-bottom: 18px; }
+  footer { margin-top: 56px; color: var(--muted); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main>
+  <span class="tag">GitHub Action · StrykerJS · Free and open source</span>
+  <h1>Are your tests actually testing anything?</h1>
+  <p class="lead">TestTruth adds small bugs to the lines your PR changed and checks if a test fails. If no test fails, you see exactly which bug would have shipped.</p>
+  <div class="btns">
+    <a class="btn primary" href="https://github.com/rahulcs754/testtruth#how-to-use-it">Add to your repo</a>
+    <a class="btn" href="https://github.com/rahulcs754/testtruth">View on GitHub</a>
+  </div>
+
+  <h2>Why</h2>
+  <div class="grid">
+    <div class="card"><h3>Coverage is not enough</h3><p>Coverage says a line ran. It does not say a test would fail if that line was wrong.</p></div>
+    <div class="card"><h3>AI writes weak tests</h3><p><code>expect(x).toBeDefined()</code> gives 100% coverage and catches nothing. TestTruth shows it.</p></div>
+    <div class="card"><h3>Fast on every PR</h3><p>Only changed lines are mutated, so it runs in seconds to minutes, not an hour.</p></div>
+    <div class="card"><h3>Nothing leaves CI</h3><p>No account, no server, no AI. Uses StrykerJS in your own GitHub Actions run.</p></div>
+  </div>
+
+  <h2>What you get on the PR</h2>
+  <div class="comment">
+    <div class="head">github-actions commented</div>
+    <div class="body">
+      <h4>⚠️ TestTruth: <span class="score">20%</span> of changed code is truly tested</h4>
+      <div>3 of 15 small bugs we added to your changed lines made a test fail. <strong>12 could ship with no failing test.</strong></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>File</th><th class="n">Caught</th><th class="n">Missed</th><th class="n">Score</th></tr></thead>
+          <tbody><tr><td>src/cart.js</td><td class="n">3</td><td class="n">12</td><td class="n">20%</td></tr></tbody>
+        </table>
+      </div>
+      <strong>Missed</strong>
+      <ul class="missed">
+        <li><code>src/cart.js:8</code> EqualityOperator: <code>subtotal &gt;= coupon.minSpend</code> → <code class="miss">subtotal &gt; coupon.minSpend</code></li>
+        <li><code>src/cart.js:9</code> ArithmeticOperator: <code>subtotal - coupon.amount</code> → <code class="miss">subtotal + coupon.amount</code></li>
+        <li><code>src/cart.js:15</code> EqualityOperator: <code>subtotal &gt; 999</code> → <code class="miss">subtotal &gt;= 999</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>How to use it</h2>
+  <ol class="steps">
+    <li><strong>Install StrykerJS</strong> in your repo:
+<pre><code>npm i -D @stryker-mutator/core @stryker-mutator/vitest-runner</code></pre>
+      and add <code>stryker.config.json</code>:
+<pre><code>{ "testRunner": "vitest", "coverageAnalysis": "perTest" }</code></pre></li>
+    <li><strong>Add the workflow</strong> <code>.github/workflows/testtruth.yml</code>:
+<pre><code>on: pull_request
+permissions: { contents: read, pull-requests: write }
+jobs:
+  testtruth:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - uses: rahulcs754/testtruth@main
+        with: { threshold: 60 }</code></pre></li>
+    <li><strong>Open a PR.</strong> TestTruth posts one comment and updates it on every push.</li>
+  </ol>
+
+  <h2>How it works</h2>
+  <div class="grid">
+    <div class="card"><h3>1. Diff</h3><p>Reads the changed line ranges from <code>git diff</code>.</p></div>
+    <div class="card"><h3>2. Mutate</h3><p>Runs Stryker with <code>--mutate file:10-14</code> on only those lines.</p></div>
+    <div class="card"><h3>3. Score</h3><p>Caught ÷ (caught + missed), only for mutants on your lines.</p></div>
+    <div class="card"><h3>4. Report</h3><p>One PR comment, the job summary, and an optional failing check.</p></div>
+  </div>
+
+  <footer>Built by <a href="https://github.com/rahulcs754">rahulcs754</a> · MIT license</footer>
+</main>
+</body>
+</html>

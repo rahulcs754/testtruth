@@ -1,0 +1,256 @@
+{
+  "schemaVersion": "1.0",
+  "thresholds": {
+    "high": 80,
+    "low": 60,
+    "break": null
+  },
+  "files": {
+    "src/cart.js": {
+      "language": "javascript",
+      "source": "export function cartTotal(items, coupon) {\n  const subtotal = items.reduce((sum, item) => sum + item.price * item.qty, 0);\n  return applyCoupon(subtotal, coupon);\n}\n\nexport function applyCoupon(subtotal, coupon) {\n  if (!coupon) return subtotal;\n  if (subtotal >= coupon.minSpend) {\n    return Math.max(0, subtotal - coupon.amount);\n  }\n  return subtotal;\n}\n\nexport function freeShipping(subtotal) {\n  return subtotal > 999;\n}\n",
+      "mutants": [
+        {
+          "id": "0",
+          "mutatorName": "BooleanLiteral",
+          "replacement": "coupon",
+          "status": "Killed",
+          "location": {
+            "end": {
+              "column": 14,
+              "line": 7
+            },
+            "start": {
+              "column": 7,
+              "line": 7
+            }
+          }
+        },
+        {
+          "id": "1",
+          "mutatorName": "ConditionalExpression",
+          "replacement": "true",
+          "status": "Survived",
+          "location": {
+            "end": {
+              "column": 14,
+              "line": 7
+            },
+            "start": {
+              "column": 7,
+              "line": 7
+            }
+          }
+        },
+        {
+          "id": "2",
+          "mutatorName": "ConditionalExpression",
+          "replacement": "false",
+          "status": "Killed",
+          "location": {
+            "end": {
+              "column": 14,
+              "line": 7
+            },
+            "start": {
+              "column": 7,
+              "line": 7
+            }
+          }
+        },
+        {
+          "id": "3",
+          "mutatorName": "ConditionalExpression",
+          "replacement": "true",
+          "status": "Survived",
+          "location": {
+            "end": {
+              "column": 34,
+              "line": 8
+            },
+            "start": {
+              "column": 7,
+              "line": 8
+            }
+          }
+        },
+        {
+          "id": "4",
+          "mutatorName": "ConditionalExpression",
+          "replacement": "false",
+          "status": "Survived",
+          "location": {
+            "end": {
+              "column": 34,
+              "line": 8
+            },
+            "start": {
+              "column": 7,
+              "line": 8
+            }
+          }
+        },
+        {
+          "id": "5",
+          "mutatorName": "EqualityOperator",
+          "replacement": "subtotal > coupon.minSpend",
+          "status": "Survived",
+          "location": {
+            "end": {
+              "column": 34,
+              "line": 8
+            },
+            "start": {
+              "column": 7,
+              "line": 8
+            }
+          }
+        },
+        {
+          "id": "6",
+          "mutatorName": "EqualityOperator",
+          "replacement": "subtotal < coupon.minSpend",
+          "status": "Survived",
+          "location": {
+            "end": {
+              "column": 34,
+              "line": 8
+            },
+            "start": {
+              "column": 7,
+              "line": 8
+            }
+          }
+        },
+        {
+          "id": "7",
+          "mutatorName": "BlockStatement",
+          "replacement": "{}",
+          "status": "Survived",
+          "location": {
+            "end": {
+              "column": 4,
+              "line": 10
+            },
+            "start": {
+              "column": 36,
+              "line": 8
+            }
+          }
+        },
+        {
+          "id": "10",
+          "mutatorName": "BlockStatement",
+          "replacement": "{}",
+          "status": "Killed",
+          "location": {
+            "end": {
+              "column": 2,
+              "line": 16
+            },
+            "start": {
+              "column": 40,
+              "line": 14
+            }
+          }
+        },
+        {
+          "id": "9",
+          "mutatorName": "ArithmeticOperator",
+          "replacement": "subtotal + coupon.amount",
+          "status": "Survived",
+          "location": {
+            "end": {
+              "column": 48,
+              "line": 9
+            },
+            "start": {
+              "column": 24,
+              "line": 9
+            }
+          }
+        },
+        {
+          "id": "11",
+          "mutatorName": "ConditionalExpression",
+          "replacement": "true",
+          "status": "Survived",
+          "location": {
+            "end": {
+              "column": 24,
+              "line": 15
+            },
+            "start": {
+              "column": 10,
+              "line": 15
+            }
+          }
+        },
+        {
+          "id": "8",
+          "mutatorName": "MethodExpression",
+          "replacement": "Math.min(0, subtotal - coupon.amount)",
+          "status": "Survived",
+          "location": {
+            "end": {
+              "column": 49,
+              "line": 9
+            },
+            "start": {
+              "column": 12,
+              "line": 9
+            }
+          }
+        },
+        {
+          "id": "12",
+          "mutatorName": "ConditionalExpression",
+          "replacement": "false",
+          "status": "Survived",
+          "location": {
+            "end": {
+              "column": 24,
+              "line": 15
+            },
+            "start": {
+              "column": 10,
+              "line": 15
+            }
+          }
+        },
+        {
+          "id": "13",
+          "mutatorName": "EqualityOperator",
+          "replacement": "subtotal >= 999",
+          "status": "Survived",
+          "location": {
+            "end": {
+              "column": 24,
+              "line": 15
+            },
+            "start": {
+              "column": 10,
+              "line": 15
+            }
+          }
+        },
+        {
+          "id": "14",
+          "mutatorName": "EqualityOperator",
+          "replacement": "subtotal <= 999",
+          "status": "Survived",
+          "location": {
+            "end": {
+              "column": 24,
+              "line": 15
+            },
+            "start": {
+              "column": 10,
+              "line": 15
+            }
+          }
+        }
+      ]
+    }
+  }
+}
