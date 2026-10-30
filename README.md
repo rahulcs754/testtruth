@@ -3,7 +3,7 @@
 **Are your tests actually testing anything?** TestTruth is a PR check that adds small bugs to the lines your PR changed (mutation testing) and tells you which ones **no test noticed**.
 
 [![CI](https://github.com/rahulcs754/testtruth/actions/workflows/ci.yml/badge.svg)](https://github.com/rahulcs754/testtruth/actions/workflows/ci.yml)
-· [Website](https://rahulcs754.github.io/testtruth/) · [Plan](docs/MVP-PLAN.md) · [Research](docs/RESEARCH.md)
+· [Website](https://rahulcs754.github.io/testtruth/)
 
 ## Benefits
 - **Proves your tests work.** Coverage says a line ran. TestTruth says a test would fail if that line broke.
